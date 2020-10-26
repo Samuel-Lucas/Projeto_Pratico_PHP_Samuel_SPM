@@ -1,15 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "projeto_php";
-
-    $conn = mysqli_connect($servername, $username, $password, $database);
-
-    if(!$conn) {
-        die("Falha na conexão: ". mysqli_connect_error());
-    }
-
+    include_once("conexao.php");
 ?>
 
 <!DOCTYPE html>
@@ -55,9 +45,12 @@
 
             $sql = "select * from produtos";
             $result = $conn->query($sql);
+            $categoriaProduto = [];
             
             if($result->num_rows > 0) {
                 while($rows = $result->fetch_assoc()) {
+                // Selecionando produtos da tabela e armazenando em $categoriaProduto
+                    array_push($categoriaProduto, $rows); 
             ?>
 
             <div class="item_prod">
@@ -81,31 +74,17 @@
             <?php
 
         // Selecionando apenas categorias da tabela e armazenando em $categoriasTabela
-            $sql2 = "select distinct categoria from produtos";
-            $result2 = $conn->query($sql2);
-
+            $sql = "select distinct categoria from produtos";
+            $result = $conn->query($sql);
             $categoriasTabela = [];
-            $i = 0;
 
-            while($categorias = $result2->fetch_assoc()) {
-                $categoriasTabela[$i] = $categorias['categoria'];
-                $i++;
+            while($rows = $result->fetch_assoc()) {
+                array_push($categoriasTabela, $rows['categoria']);
             }
         
-        // Selecionando produtos da tabela e armazenando em $categoriaProduto
-            $categoriaProduto = [];
-            $i = 0;
-
-            $sql = "select * from produtos";
-            $result = $conn->query($sql);
-            while($rows = $result->fetch_assoc()) {
-                $categoriaProduto[$i] = $rows;
-                $i++;
-            }
-
-            $i = 0;
-            $j = 0;
-            $ind = 0;
+           $i = 0;
+           $j = 0;
+           $ind = 0;
 
            while($i < count($categoriasTabela)) {
                 while($j < count($categoriaProduto)) {
