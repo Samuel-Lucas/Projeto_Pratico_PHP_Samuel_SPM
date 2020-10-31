@@ -4,6 +4,7 @@
     include_once "php/includes/header.php";
 ?>
 
+
     <h2 style="margin-left: 120px;">Enviar pedido</h2>
 
     <hr>
@@ -21,52 +22,64 @@
 
             <label>Produto: </label><br>
 
-            <select name="nomeproduto" onblur="ver()">
+            <select name="nomeproduto" onblur="valorSelect()">
                 <option value=""></option>
 
                 <?php 
-                    $sql = "select idproduto, descricao from produtos";
+                    $sql = "select descricao, preco_venda from produtos";
                     $result = $conn->query($sql);
                 
                     while($rows = $result->fetch_assoc()) {
                 ?>
-                        <option value="<?php echo $rows['descricao']; ?>"><?php echo $rows['descricao']; ?></option>
+                        <option value="<?php echo $rows['preco_venda']; ?>">
+                            <?php echo $rows['descricao']; ?>
+                        </option>
 
               <?php } ?>
                 
             </select><br><br>
 
-            <?php
-                          
-     
+            <script>
 
-                $selectValue = "
-                    <script>
-                        function ver() {
+                function valorSelect() {
+                    let valor = event.target;
+                    valor = parseFloat(valor.value)
 
-                            let desc = document.querySelector('select').value
-                            document.write(desc)
-                        }
-                    </script>";
-    
-                    
-
-
-
-            ?>
+                    let exibir = document.getElementById('preco')
+                    exibir.value = "<?php $phpvar='"+valor+"';
+                    echo $phpvar;?>";
+                } 
+            </script>
 
             <label>Valor unitário: </label><br>
-            <input type="number" name="valorunitario"><br><br>
+            <input id="preco" type="number" name="valorunitario" value=""><br><br>
 
             <label>Quantidade: </label><br>
-            <input type="number" name="quantidade"><br><br>
+            <input type="number" name="quantidade" onblur="valorTotal()"><br><br>
+
+            <script>
+
+                function valorTotal() {
+                    let quant = event.target;
+                    quant = parseInt(quant.value)
+
+                    let preco = document.getElementById('preco').value
+
+                    if (quant > 0) {
+                        let mult = quant * preco
+
+                        let exibir = document.getElementById('valor_final')
+                        exibir.value = "<?php $phpvar='"+mult+"';
+                        echo $phpvar;?>";    
+                    }              
+                } 
+            </script>
             
             <label>Valor total: </label><br>
-            <input type="number" name="valortotal"><br><br>
+            <input id="valor_final" type="number" name="valortotal" value=""><br><br>
 
             <button class="btn_envio" type="submit">Enviar</button>
         </form>
-
     </div>
 
 <?php include_once "php/includes/footer.php"; ?>

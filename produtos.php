@@ -37,7 +37,7 @@
 
             <div class="item_prod">
                 <img src="<?php echo $rows['imagem']; ?>" onclick="abreImg()" width="40%"><br><br>
-                <p><?php echo $rows['descricao']; ?>"</p>
+                <p><?php echo $rows['descricao']; ?></p>
                 <p style="border: 0.5px solid gray; width: 300px;"></p>
                 <p><del><?php echo $rows['preco']; ?></del></p>
                 <p class="preco_descontado"><?php echo $rows['preco_venda']; ?></p>
