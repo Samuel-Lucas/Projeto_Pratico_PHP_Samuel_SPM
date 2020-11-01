@@ -1,16 +1,23 @@
 <?php
+    session_start();
+
     require_once "php/conexao_bd/conexao.php";
 
     include_once "php/includes/header.php";
-?>
 
+    if (isset($_SESSION['sucesso'])) {
+        echo "<script> alert('Pedido Enviado com Sucesso !')</script>";
+
+        unset($_SESSION['sucesso']);
+    }
+?>
 
     <h2 style="margin-left: 120px;">Enviar pedido</h2>
 
     <hr>
 
     <div id="container_pedido">
-        <form action="enviar_pedido.php" method="post">
+        <form action="php/actions/enviar_bd.php" method="post">
             <div class="conteudo">
 
                 <div class="header_form">
@@ -48,8 +55,7 @@
                 <script>
 
                     function valorSelect() {
-                        let valor = event.target;
-                        valor = parseFloat(valor.value)
+                        let valor = (event.target.value);
 
                         let exibir = document.getElementById('preco')
                         exibir.value = "<?php $phpvar='"+valor+"';
