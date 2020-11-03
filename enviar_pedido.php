@@ -5,6 +5,12 @@
 
     include_once "php/includes/header.php";
 
+    if (isset($_SESSION['erro_envio'])) {
+        echo "<script> alert('Erro no cadastro do envio, campos não preenchidos !')</script>";
+
+        unset($_SESSION['erro_envio']);
+    }
+
     if (isset($_SESSION['sucesso'])) {
         echo "<script> alert('Pedido Enviado com Sucesso !')</script>";
 
